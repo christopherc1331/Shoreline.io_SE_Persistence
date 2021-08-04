@@ -9,7 +9,6 @@ import (
 func main() {
 	fmt.Println("Hello world!")
 	fmt.Println(add(1,2))
-	fmt.Println(getStudentsInCourse("ALGORITHMS1"))
 }
 
 // this is a sanity check function for my own self teaching,
@@ -223,4 +222,57 @@ func enrollStudent(name string, number string, courses []entities.Course) error 
 // bogus executor to resolve errors in above function
 func executeEnrollStudentSql(dbName string, query string) error {
 	return nil
+}
+
+func getCoursesForStudents(students []entities.Student) map[entities.Student][]entities.Course {
+
+	// initialize return shape
+	studentCourseMap := make(map[entities.Student][]entities.Course)
+
+	// loop through students
+	for idx := range students {
+
+		student := students[idx]
+
+		dbName := identifyDb(student.StudentName)
+
+		query := `
+			SELECT 
+				[CourseID],
+				[CourseCode],
+				[CourseName]
+			FROM [database_3].[dbo].[Courses] c
+			INNER JOIN  ` + dbName + `.[dbo].[Enrollment] e ON e.[Enrollment_CourseID] = c.[CourseID]
+			INNER JOIN ` + dbName + `.[dbo].[Students] s ON s.[StudentID] = e.[Enrollment_StudentID]
+			WHERE s.[StudentID] = ` + strconv.FormatInt(student.StudentID, 10)
+
+		coursesForStudent := executeGetCoursesForStudentSql(dbName, query)
+
+		studentCourseMap[student] = coursesForStudent
+	}
+
+	return studentCourseMap
+}
+
+
+// bogus helper executor method for above function
+// note this only gets the courses for a single student, and the mapping takes place
+// in the parent function that calls this one
+func executeGetCoursesForStudentSql(dbName string, query string) []entities.Course {
+
+	var courses []entities.Course
+
+	course1 := entities.Course{
+		CourseID:   1,
+		CourseCode: "00519",
+		CourseName: "Mathematics",
+	}
+
+	course2 := entities.Course{
+		CourseID:   2,
+		CourseCode: "00847",
+		CourseName: "Chemistry",
+	}
+
+	return append(courses, course1, course2)
 }
