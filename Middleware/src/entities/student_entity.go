@@ -1,7 +1,7 @@
 package entities
 
 type Student struct {
-	studentID int64
-	studentName string
-	studentPhoneNumber string
+	StudentID          int64
+	StudentName        string
+	StudentPhoneNumber string
 }
