@@ -1,3 +1,20 @@
+/**
+	------------Answered Questions------------
+
+	Q: 	Are there any indexes that would help with the below tasks?
+	A: 	Yes, we should have primary key indexes so that fetching the rows when
+		when querying the table is more efficient
+
+	Q:	What tables do each database_1 and database_2 have? Explain your reasoning.
+	A:	These databases both have student and enrollment tables, which are named the same
+		to allow for dynamic querying by swapping out the database name depending on the student(s)
+		parameter that is/are currently being queried against. This is a database architectural
+		concept known as "sharding". The courses table exists in a separate db (database_3),
+		so that it's not tied to either database_1 or database_2 since it is used by both.
+
+ */
+
+
 package main
 
 import (
