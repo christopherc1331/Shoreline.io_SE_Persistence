@@ -10,3 +10,8 @@ IF DB_ID('database_2') IS NULL
 BEGIN
 	CREATE DATABASE [database_2]
 END
+
+IF DB_ID('database_3') IS NULL
+BEGIN
+	CREATE DATABASE [database_3]
+END
