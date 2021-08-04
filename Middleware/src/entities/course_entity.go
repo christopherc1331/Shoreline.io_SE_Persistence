@@ -1,7 +1,7 @@
 package entities
 
 type Course struct {
-	courseID int64
-	courseCode string
-	courseName string
+	CourseID   int64
+	CourseCode string
+	CourseName string
 }
